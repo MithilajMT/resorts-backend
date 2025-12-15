@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/server.js",
-  "scripts": {
-    "start": "nodemon src/server.ts",
-    "server": "nodemon src/server.ts",
-    "client": "npm run dev --prefix ../frontend",
+   "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "nodemon src/server.ts",
+    "client": "npm run dev --prefix ../frontend"
   },
   "author": "",
   "license": "ISC",
