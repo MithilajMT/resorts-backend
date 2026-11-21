@@ -37,7 +37,7 @@ export const adminProtect = async (req: CustomRequest, res: Response, next: Next
                 return res.status(401).json({ message: 'User not found' });
             }
 
-            const newAccessToken = generateAccessToken({ id: user._id as string, role: user.role });
+            const newAccessToken = generateAccessToken({ id: user._id.toString(), role: user.role });
             res.cookie('adminAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -82,7 +82,7 @@ export const userProtect = async (req: CustomRequest, res: Response, next: NextF
                 return res.status(401).json({ message: 'User not found' });
             }
 
-            const newAccessToken = generateAccessToken({ id: user._id as string, role: user.role });
+            const newAccessToken = generateAccessToken({ id: user._id.toString(), role: user.role });
             res.cookie('userAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -130,7 +130,7 @@ export const userUnProtect = async (req: CustomRequest, res: Response, next: Nex
                 return res.status(401).json({ message: 'User not found' });
             }
 
-            const newAccessToken = generateAccessToken({ id: user._id as string, role: user.role });
+            const newAccessToken = generateAccessToken({ id: user._id.toString(), role: user.role });
             res.cookie('userAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -190,7 +190,7 @@ export const resortProtect = async (req: CustomRequest, res: Response, next: Nex
                 return res.status(401).json({ message: 'User not found' });
             }
 
-            const newAccessToken = generateAccessToken({ id: resort._id as string });
+            const newAccessToken = generateAccessToken({ id: resort._id.toString() });
             res.cookie('resortAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',

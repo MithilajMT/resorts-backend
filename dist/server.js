@@ -1,27 +1,4 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -37,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const dotenv = __importStar(require("dotenv"));
+require("dotenv/config");
 const db_1 = __importDefault(require("./config/db"));
 const cors_1 = __importDefault(require("cors"));
 const passport_1 = __importDefault(require("passport"));
@@ -48,7 +25,6 @@ const adminRoutes_1 = __importDefault(require("./routes/adminRoutes"));
 const userRepository_1 = __importDefault(require("./repositories/userRepository"));
 const jwtHelper_1 = require("./utils/jwtHelper");
 const socket_1 = require("./socket/socket");
-dotenv.config();
 (0, db_1.default)();
 const port = process.env.PORT || 5000;
 socket_1.app.use((0, cors_1.default)({
@@ -76,8 +52,8 @@ passport_1.default.use(new passport_google_oauth20_1.Strategy({
                     role: 'user',
                 });
             }
-            const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id, role: user.role });
-            const refreshToken = (0, jwtHelper_1.generateRefreshToken)(user._id);
+            const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id.toString(), role: user.role });
+            const refreshToken = (0, jwtHelper_1.generateRefreshToken)(user._id.toString());
             cb(null, { accessToken, refreshToken });
         }
         catch (error) {

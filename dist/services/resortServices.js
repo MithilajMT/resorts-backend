@@ -42,8 +42,8 @@ exports.default = new class ResortService {
                     throw new customError_1.default('Your account is blocked', 403);
                 }
                 else {
-                    const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: resort._id, role: 'resort' });
-                    const refreshToken = (0, jwtHelper_1.generateRefreshToken)(resort._id);
+                    const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: resort._id.toString(), role: 'resort' });
+                    const refreshToken = (0, jwtHelper_1.generateRefreshToken)(resort._id.toString());
                     res.cookie('resortAccessT', accessToken, {
                         httpOnly: true,
                         secure: process.env.NODE_ENV !== 'development',
@@ -86,7 +86,7 @@ exports.default = new class ResortService {
             }
             const availableRooms = [];
             for (const resort of response.resorts) {
-                const rooms = yield roomRepository_1.default.findAvailableRooms(resort._id, guestCount, checkInDate, checkOutDate);
+                const rooms = yield roomRepository_1.default.findAvailableRooms(resort._id.toString(), guestCount, checkInDate, checkOutDate);
                 if (rooms && rooms.length > 0) {
                     availableRooms.push({
                         resort,

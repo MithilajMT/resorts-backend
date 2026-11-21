@@ -1,6 +1,6 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import * as dotenv from 'dotenv'
+import "dotenv/config"
 import connectDB from './config/db'
 import cors from 'cors'
 import passport from 'passport'
@@ -12,7 +12,6 @@ import userRepository from './repositories/userRepository'
 import { generateAccessToken, generateRefreshToken } from './utils/jwtHelper'
 import { app, server } from './socket/socket'
 
-dotenv.config()
 connectDB()
 
 const port = process.env.PORT || 5000
@@ -44,8 +43,8 @@ passport.use(new GoogleStrategy({
                     role: 'user',
                 })
             }
-            const accessToken = generateAccessToken({id: user._id as string, role: user.role})
-            const refreshToken = generateRefreshToken(user._id as string)
+            const accessToken = generateAccessToken({id: user._id.toString(), role: user.role})
+            const refreshToken = generateRefreshToken(user._id.toString())
             cb(null, { accessToken, refreshToken });
         } catch (error) {
             cb(error, false)

@@ -16,9 +16,9 @@ const customError_1 = __importDefault(require("../errors/customError"));
 const categoryRepository_1 = __importDefault(require("../repositories/categoryRepository"));
 const facilityRepository_1 = __importDefault(require("../repositories/facilityRepository"));
 const resortRepository_1 = __importDefault(require("../repositories/resortRepository"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
 const userRepository_1 = __importDefault(require("../repositories/userRepository"));
 const bookingRepository_1 = __importDefault(require("../repositories/bookingRepository"));
+const otpServices_1 = require("./otpServices");
 class AdminServices {
     // Category ---------------------------------------------------------------
     addCategory(name) {
@@ -93,19 +93,9 @@ class AdminServices {
         return __awaiter(this, void 0, void 0, function* () {
             const resort = yield resortRepository_1.default.reject(resortId);
             if (resort) {
-                const transporter = nodemailer_1.default.createTransport({
-                    host: "smtp.gmail.com",
-                    port: 587,
-                    service: "Gmail",
-                    secure: true,
-                    auth: {
-                        user: process.env.USER_EMAIL,
-                        pass: process.env.USER_EMAIL_PASSWORD
-                    },
-                });
-                transporter.sendMail({
+                otpServices_1.resend.emails.send({
+                    from: "Resorts <resorts@resend.dev>",
                     to: resort === null || resort === void 0 ? void 0 : resort.email,
-                    from: process.env.USER_EMAIL,
                     subject: "Rejected your resort profile",
                     text: reason
                 });

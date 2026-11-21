@@ -1,8 +1,9 @@
 import otpGenerator from 'otp-generator'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import OtpRepository from '../repositories/otpRepository';
 import { IOtp } from '../models/otpModel';
 
+export const resend = new Resend(process.env.RESEND_API_KEY)
 
 export default new class OtpServices {
 
@@ -24,20 +25,10 @@ export default new class OtpServices {
   }
 
   async sendOtpVerificationEmail(email: string, otp: string) {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      service: "Gmail",
-      secure: true,
-      auth: {
-        user: process.env.USER_EMAIL,
-        pass: process.env.USER_EMAIL_PASSWORD
-      },
-    })
 
-    transporter.sendMail({
+    resend.emails.send({
+      from: "Resorts <resorts@resend.dev>",
       to: email,
-      from: process.env.USER_EMAIL,
       subject: "Resorts OTP Verification",
       html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
               <div style="margin:50px auto;width:70%;padding:20px 0">

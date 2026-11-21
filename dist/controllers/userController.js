@@ -250,10 +250,13 @@ class UserController {
     }
     walletDetails(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            var _a, _b;
+            var _a, _b, _c;
             try {
-                const histories = yield userServices_1.default.walletDetails((_a = req.user) === null || _a === void 0 ? void 0 : _a._id);
-                res.status(200).json({ balance: (_b = req.user) === null || _b === void 0 ? void 0 : _b.walletBalance, histories });
+                if (!((_a = req.user) === null || _a === void 0 ? void 0 : _a._id)) {
+                    throw new Error("User not authenticated");
+                }
+                const histories = yield userServices_1.default.walletDetails((_b = req.user) === null || _b === void 0 ? void 0 : _b._id.toString());
+                res.status(200).json({ balance: (_c = req.user) === null || _c === void 0 ? void 0 : _c.walletBalance, histories });
             }
             catch (err) {
                 res.status(500).json({ message: 'Internal Server Error' });

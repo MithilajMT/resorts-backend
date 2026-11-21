@@ -25,7 +25,7 @@ exports.default = new class MessageServices {
                 ]);
             }
             const newMessage = yield messageRepository_1.default.createMessage(messageData);
-            yield conversationRepositroy_1.default.addMessageToConversation(conversation._id, newMessage._id);
+            yield conversationRepositroy_1.default.addMessageToConversation(conversation._id.toString(), newMessage._id.toString());
             return newMessage;
         });
     }

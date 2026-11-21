@@ -2,9 +2,9 @@ import CustomError from "../errors/customError"
 import categoryRepository from "../repositories/categoryRepository"
 import facilityRepository from "../repositories/facilityRepository"
 import resortRepository from "../repositories/resortRepository"
-import nodemailer from 'nodemailer'
 import userRepository from "../repositories/userRepository"
 import bookingRepository from "../repositories/bookingRepository"
+import { resend } from "./otpServices"
 
 
 class AdminServices {
@@ -72,19 +72,9 @@ class AdminServices {
     async rejectResort(resortId: string, reason: string) {
         const resort = await resortRepository.reject(resortId)
         if (resort) {
-            const transporter = nodemailer.createTransport({
-                host: "smtp.gmail.com",
-                port: 587,
-                service: "Gmail",
-                secure: true,
-                auth: {
-                    user: process.env.USER_EMAIL,
-                    pass: process.env.USER_EMAIL_PASSWORD
-                },
-            })
-            transporter.sendMail({
+            resend.emails.send({
+                from: "Resorts <resorts@resend.dev>",
                 to: resort?.email,
-                from: process.env.USER_EMAIL,
                 subject: "Rejected your resort profile",
                 text: reason
             })

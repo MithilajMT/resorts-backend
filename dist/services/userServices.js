@@ -76,8 +76,8 @@ class UserServices {
                     throw new customError_1.default('Your account is blocked', 403);
                 }
                 else {
-                    const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id, role: user.role });
-                    const refreshToken = (0, jwtHelper_1.generateRefreshToken)(user._id);
+                    const accessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id.toString(), role: user.role });
+                    const refreshToken = (0, jwtHelper_1.generateRefreshToken)(user._id.toString());
                     if (role == 'user') {
                         if (user.role != role) {
                             throw new customError_1.default('Invalid Email', 401);

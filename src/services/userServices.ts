@@ -63,8 +63,8 @@ class UserServices {
             if (user.isBlock) {
                 throw new CustomError('Your account is blocked', 403)
             } else {
-                const accessToken = generateAccessToken({ id: user._id as string, role: user.role })
-                const refreshToken = generateRefreshToken(user._id as string)
+                const accessToken = generateAccessToken({ id: user._id.toString(), role: user.role })
+                const refreshToken = generateRefreshToken(user._id.toString())
 
                 if (role == 'user') {
                     if (user.role != role) {

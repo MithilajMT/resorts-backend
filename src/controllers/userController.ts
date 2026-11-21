@@ -205,11 +205,11 @@ class UserController {
         try {
             const {
                 place, guestCount, checkIn, checkOut, sortBy, maxPrice, minPrice, categories, facilities, page
-            }: ResortQuery = req.query 
+            }: ResortQuery = req.query
 
             if (!place || !guestCount || !checkIn || !checkOut) {
                 throw new CustomError("Missing required search parameters", 400);
-            }          
+            }
             const response = await resortServices.searchRooms({
                 place,
                 guestCount: guestCount,
@@ -227,7 +227,7 @@ class UserController {
                 throw new CustomError("No available rooms found", 404);
             }
 
-            return res.status(200).json({availableRooms:response.availableRooms,totalResorts:response.totalResorts});
+            return res.status(200).json({ availableRooms: response.availableRooms, totalResorts: response.totalResorts });
         } catch (err) {
             if (err instanceof CustomError) {
                 res.status(err.statusCode).json({ message: err.message })
@@ -240,7 +240,10 @@ class UserController {
 
     async walletDetails(req: CustomRequest, res: Response) {
         try {
-            const histories = await userServices.walletDetails(req.user?._id as string)
+            if (!req.user?._id) {
+                throw new Error("User not authenticated")
+            }
+            const histories = await userServices.walletDetails(req.user?._id.toString())
             res.status(200).json({ balance: req.user?.walletBalance, histories })
         } catch (err) {
             res.status(500).json({ message: 'Internal Server Error' })

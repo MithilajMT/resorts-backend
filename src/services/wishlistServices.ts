@@ -1,5 +1,4 @@
 import wishlistRepository from '../repositories/wishlistRepository';
-import { IWishlist } from '../models/wishlistModel';
 import CustomError from '../errors/customError';
 
 class WishlistService {

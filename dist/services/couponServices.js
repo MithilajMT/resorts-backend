@@ -42,7 +42,7 @@ class CouponService {
     updateCoupon(id, updateData) {
         return __awaiter(this, void 0, void 0, function* () {
             const existingCoupon = yield couponRepository_1.default.findOne({ code: updateData.code });
-            if (existingCoupon && id != existingCoupon._id) {
+            if (existingCoupon && id != existingCoupon._id.toString()) {
                 throw new customError_1.default('Coupon code already exists', 409);
             }
             return yield couponRepository_1.default.update(id, updateData);

@@ -41,7 +41,7 @@ const adminProtect = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
             if (!user) {
                 return res.status(401).json({ message: 'User not found' });
             }
-            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id, role: user.role });
+            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id.toString(), role: user.role });
             res.cookie('adminAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -88,7 +88,7 @@ const userProtect = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
             if (!user) {
                 return res.status(401).json({ message: 'User not found' });
             }
-            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id, role: user.role });
+            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id.toString(), role: user.role });
             res.cookie('userAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -137,7 +137,7 @@ const userUnProtect = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             if (!user) {
                 return res.status(401).json({ message: 'User not found' });
             }
-            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id, role: user.role });
+            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: user._id.toString(), role: user.role });
             res.cookie('userAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
@@ -197,7 +197,7 @@ const resortProtect = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             if (!resort) {
                 return res.status(401).json({ message: 'User not found' });
             }
-            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: resort._id });
+            const newAccessToken = (0, jwtHelper_1.generateAccessToken)({ id: resort._id.toString() });
             res.cookie('resortAccessT', newAccessToken, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',

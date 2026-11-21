@@ -40,8 +40,8 @@ export default new class ResortService {
             } else if (resort.isBlock) {
                 throw new CustomError('Your account is blocked', 403)
             } else {
-                const accessToken = generateAccessToken({ id: resort._id as string, role: 'resort' })
-                const refreshToken = generateRefreshToken(resort._id as string)
+                const accessToken = generateAccessToken({ id: resort._id.toString(), role: 'resort' })
+                const refreshToken = generateRefreshToken(resort._id.toString())
                 res.cookie('resortAccessT', accessToken, {
                     httpOnly: true,
                     secure: process.env.NODE_ENV !== 'development',
@@ -85,7 +85,7 @@ export default new class ResortService {
 
         const availableRooms = [];
         for (const resort of response.resorts) {
-            const rooms = await roomRepository.findAvailableRooms(resort._id as string, guestCount!, checkInDate, checkOutDate);
+            const rooms = await roomRepository.findAvailableRooms(resort._id.toString(), guestCount!, checkInDate, checkOutDate);
             if (rooms && rooms.length > 0) {
                 availableRooms.push({
                     resort,

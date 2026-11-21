@@ -28,7 +28,7 @@ class CouponService {
 
     async updateCoupon(id: string, updateData: Partial<ICoupon>): Promise<ICoupon | null> {
         const existingCoupon = await couponRepository.findOne({ code: updateData.code });
-        if (existingCoupon && id != existingCoupon._id) {
+        if (existingCoupon && id != existingCoupon._id.toString()) {
             throw new CustomError('Coupon code already exists',409)
         }
         return await couponRepository.update(id, updateData);

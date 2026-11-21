@@ -12,9 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.resend = void 0;
 const otp_generator_1 = __importDefault(require("otp-generator"));
-const nodemailer_1 = __importDefault(require("nodemailer"));
+const resend_1 = require("resend");
 const otpRepository_1 = __importDefault(require("../repositories/otpRepository"));
+exports.resend = new resend_1.Resend(process.env.RESEND_API_KEY);
 exports.default = new class OtpServices {
     createOtp(otpDetails) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -36,19 +38,9 @@ exports.default = new class OtpServices {
     }
     sendOtpVerificationEmail(email, otp) {
         return __awaiter(this, void 0, void 0, function* () {
-            const transporter = nodemailer_1.default.createTransport({
-                host: "smtp.gmail.com",
-                port: 587,
-                service: "Gmail",
-                secure: true,
-                auth: {
-                    user: process.env.USER_EMAIL,
-                    pass: process.env.USER_EMAIL_PASSWORD
-                },
-            });
-            transporter.sendMail({
+            exports.resend.emails.send({
+                from: "Resorts <resorts@resend.dev>",
                 to: email,
-                from: process.env.USER_EMAIL,
                 subject: "Resorts OTP Verification",
                 html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
               <div style="margin:50px auto;width:70%;padding:20px 0">

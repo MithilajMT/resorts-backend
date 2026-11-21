@@ -18,7 +18,7 @@ export default new class MessageServices {
 
         const newMessage = await messageRepository.createMessage(messageData)
         
-        await conversationRepositroy.addMessageToConversation(conversation._id as string,newMessage._id as string)
+        await conversationRepositroy.addMessageToConversation(conversation._id.toString(),newMessage._id.toString())
 
         return newMessage;
     }

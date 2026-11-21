@@ -20,13 +20,13 @@ class BookingService {
             const response = await razorpay.orders.create({
                 amount: booking.totalPrice * 100,
                 currency: 'INR',
-                receipt: booking._id as string,
+                receipt: booking._id.toString(),
                 payment_capture: true
             })
-            return { orderId: response.id, amount: response.amount, bookingId: booking._id as string }
+            return { orderId: response.id, amount: response.amount, bookingId: booking._id.toString() }
         }
         userRepository.updateUser(String(booking.userId),{walletBalance:walletBalance-booking.totalPrice})
-        return { bookingId: booking._id as string }
+        return { bookingId: booking._id.toString() }
     }
 
     async setPaymentStatus(id: string, status: boolean): Promise<IBooking | null> {

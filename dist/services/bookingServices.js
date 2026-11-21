@@ -32,13 +32,13 @@ class BookingService {
                 const response = yield razorpay.orders.create({
                     amount: booking.totalPrice * 100,
                     currency: 'INR',
-                    receipt: booking._id,
+                    receipt: booking._id.toString(),
                     payment_capture: true
                 });
-                return { orderId: response.id, amount: response.amount, bookingId: booking._id };
+                return { orderId: response.id, amount: response.amount, bookingId: booking._id.toString() };
             }
             userRepository_1.default.updateUser(String(booking.userId), { walletBalance: walletBalance - booking.totalPrice });
-            return { bookingId: booking._id };
+            return { bookingId: booking._id.toString() };
         });
     }
     setPaymentStatus(id, status) {
